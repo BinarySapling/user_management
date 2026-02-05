@@ -1,6 +1,5 @@
 import { users } from "../data/users.js";
 import chalk from "chalk";
-import { users } from './../data/users';
 
 // Get a single user by ID
 export const getUser = (req, res) => {
