@@ -8,11 +8,12 @@ import {
     deleteUser
 }
 from "../controllers/user.controller.js"
+import { checkAuth } from "../middleware/auth.js";
 
 const router = express.Router();
 
 router.post("/", createUser);
-router.get("/:id", getUser);
+router.get("/:id", checkAuth,getUser);
 router.put("/:id", updateUser);
 router.patch("/:id", patchUser);
 router.delete("/:id", deleteUser);
