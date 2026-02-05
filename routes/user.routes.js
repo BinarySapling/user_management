@@ -13,7 +13,7 @@ import { checkAuth, validateUser , validateUserId } from "../middleware/auth.js"
 
 const router = express.Router();
 
-router.post("/", validateUser ,createUser);
+router.post("/", validateUser ,createUser);//fixed
 router.get("/:id", validateUserId,getUser);
 router.put("/:id", updateUser);
 router.patch("/:id", patchUser);
