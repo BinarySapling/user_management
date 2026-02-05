@@ -4,7 +4,7 @@ export const checkAuth = (req,res,next) =>{
         next()
     }else{
         console.log("AUTH FAILED")
-        return res.status(400,()=>{
+        return res.status(400).json({
             success:false
         })
     }
@@ -25,7 +25,7 @@ export const validateUser = (req,res,next)=>{
 export const validateUserId = (req,res,next) =>{
     const{id}  = req.params
     if(!id || id.length < 5){
-        return res.sta(400).json({
+        return res.status(400).json({
             success:false,
             message:"Id invalid"
         })
