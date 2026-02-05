@@ -134,13 +134,7 @@ export const createUser = (req, res) => {
     const { name, email } = req.body;
 
     // Check if both name and email are provided
-    if (!name || !email) {
-        console.log(chalk.red('✗ Create failed: Name and email are required'));
-        return res.status(400).json({ 
-            success: false, 
-            message: "Name and email are required" 
-        });
-    }
+   
 
     // Create a new user object
     const newUser = {
