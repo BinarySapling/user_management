@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/",(req,res)=>{
-    res.send("User Management API is running")
+    res.send("Welcome to the updated Slash Route")
 })
 
 app.use("/api/users", userRouter)
