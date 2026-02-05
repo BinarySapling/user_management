@@ -39,3 +39,29 @@ export const validateUserId = (req,res,next) =>{
 
     next()
 }
+
+export const validateToken = (req, res, next) => {
+    const token = req.headers.token || req.headers.authorization;
+    
+    // Check if token exists
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: "Access denied. No token provided"
+        });
+    }
+    
+    // Simple token validation (you can replace with JWT verification)
+    const validToken = "Bearer mysecrettoken123";
+    
+    if (token !== validToken) {
+        return res.status(403).json({
+            success: false,
+            message: "Invalid token"
+        });
+    }
+    
+    // Token is valid, proceed
+    console.log("✓ Token validated successfully");
+    next();
+}
