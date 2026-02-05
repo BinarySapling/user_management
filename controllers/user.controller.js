@@ -5,7 +5,7 @@ import { users } from './../data/users';
 // Get a single user by ID
 export const getUser = (req, res) => {
     // Get the user ID from the URL parameters
-    const{userId }= req.body;
+    const userId = req.params.id;
     
     // Search for the user in the users array
     const foundUser = users.find(user => user.id === userId);
