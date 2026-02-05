@@ -24,10 +24,16 @@ export const validateUser = (req,res,next)=>{
 
 export const validateUserId = (req,res,next) =>{
     const{id}  = req.params
-    if(!id || id.length < 5){
+    if(!id || id.length < 5 ){
         return res.status(400).json({
             success:false,
             message:"Id invalid"
+        })
+    }
+    if(isNaN(id)){
+        return res.status(400).json({
+            success:false,
+            message:"Id must be a number"
         })
     }
 
