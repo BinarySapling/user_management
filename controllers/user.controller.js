@@ -1,4 +1,5 @@
 import { users } from "../data/users.js";
+import chalk from "chalk";
 
 // Get a single user by ID
 export const getUser = (req, res) => {
@@ -10,12 +11,14 @@ export const getUser = (req, res) => {
     
     // Check if user was found
     if (!foundUser) {
+        console.log(chalk.red(`✗ User not found: ${userId}`));
         return res.status(404).json({ 
             success: false, 
             message: "User not found" 
         });
     }
     
+    console.log(chalk.green(`✓ User retrieved: ${foundUser.name} (${userId})`));
     // Send back the found user
     res.status(200).json({ 
         success: true, 
@@ -36,6 +39,7 @@ export const updateUser = (req, res) => {
 
     // Check if user exists
     if (!foundUser) {
+        console.log(chalk.red(`✗ Update failed: User not found (${userId})`));
         return res.status(404).json({ 
             success: false, 
             message: "User not found" 
@@ -50,6 +54,7 @@ export const updateUser = (req, res) => {
         foundUser.email = email;
     }
 
+    console.log(chalk.green(`✓ User updated: ${foundUser.name} (${userId})`));
     // Send back success response
     res.status(200).json({ 
         success: true, 
@@ -71,6 +76,7 @@ export const patchUser = (req, res) => {
 
     // Check if user exists
     if (!foundUser) {
+        console.log(chalk.red(`✗ Patch failed: User not found (${userId})`));
         return res.status(404).json({ 
             success: false, 
             message: "User not found" 
@@ -84,6 +90,7 @@ export const patchUser = (req, res) => {
         }
     }
 
+    console.log(chalk.green(`✓ User patched: ${foundUser.name} (${userId})`));
     // Send success response
     res.status(200).json({ 
         success: true, 
@@ -102,6 +109,7 @@ export const deleteUser = (req, res) => {
 
     // Check if user was found (-1 means not found)
     if (userPosition === -1) {
+        console.log(chalk.red(`✗ Delete failed: User not found (${userId})`));
         return res.status(404).json({ 
             success: false, 
             message: "User not found" 
@@ -111,6 +119,7 @@ export const deleteUser = (req, res) => {
     // Remove the user from the array and save it
     const removedUser = users.splice(userPosition, 1)[0];
     
+    console.log(chalk.red.bold(`✗ User deleted: ${removedUser.name} (${userId})`));
     // Send success response
     res.status(200).json({ 
         success: true, 
@@ -126,6 +135,7 @@ export const createUser = (req, res) => {
 
     // Check if both name and email are provided
     if (!name || !email) {
+        console.log(chalk.red('✗ Create failed: Name and email are required'));
         return res.status(400).json({ 
             success: false, 
             message: "Name and email are required" 
@@ -142,6 +152,8 @@ export const createUser = (req, res) => {
     // Add the new user to the users array
     users.push(newUser);
     
+    console.log(chalk.green.bold(`✓ User created: ${newUser.name} (${newUser.id})`));
+    console.log(chalk.cyan(`  Email: ${newUser.email}`));
     // Send success response with the created user
     res.status(201).json({ 
         success: true, 
