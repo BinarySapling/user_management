@@ -1,7 +1,10 @@
 export class CreateUserDto {
-    constructor(name, email) {
+    constructor(name, email, password, role, isActive) {
         this.name = name;
         this.email = email;
+        this.password = password;
+        this.role = role;
+        this.isActive = isActive;
     }
 
     validate() {
@@ -26,6 +29,25 @@ export class CreateUserDto {
             }
         }
 
+        // Validate password
+        if (!this.password || typeof this.password !== 'string') {
+            errors.push('Password is required and must be a string');
+        } else if (this.password.length < 6) {
+            errors.push('Password must be at least 6 characters long');
+        } else if (this.password.length > 100) {
+            errors.push('Password must not exceed 100 characters');
+        }
+
+        // Validate role (optional)
+        if (this.role && !['user', 'admin', 'moderator'].includes(this.role.toLowerCase())) {
+            errors.push('Role must be one of: user, admin, moderator');
+        }
+
+        // Validate isActive (optional)
+        if (this.isActive !== undefined && typeof this.isActive !== 'boolean') {
+            errors.push('isActive must be a boolean value');
+        }
+
         return {
             isValid: errors.length === 0,
             errors: errors
@@ -35,9 +57,9 @@ export class CreateUserDto {
 
 // Middleware function to validate create user request
 export const validateCreateUserDto = (req, res, next) => {
-    const { name, email } = req.body;
+    const { name, email, password, role, isActive } = req.body;
     
-    const dto = new CreateUserDto(name, email);
+    const dto = new CreateUserDto(name, email, password, role, isActive);
     const validation = dto.validate();
 
     if (!validation.isValid) {
